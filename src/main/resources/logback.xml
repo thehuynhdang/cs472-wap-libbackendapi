@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="PRO_HOME" value="/SpringBootLogFiles/logs"/>
+	<property name="USER_HOME" value="${PRO_HOME}" />
+	<property name="LOG_FILE_NAME"  value="cs472-wap-api" />
+	<property name="FW_LOG_FILE_NAME"  value="cs472-wap-api-spframework" />
+
+	<timestamp key="byDate" datePattern="yyyyMMdd" />
+
+	<appender name="FILE-ENGINE-ERROR" class="ch.qos.logback.core.FileAppender">
+		<file>${USER_HOME}/${FW_LOG_FILE_NAME}-${byDate}.error</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE-ENGINE" class="ch.qos.logback.core.FileAppender">
+		<file>${USER_HOME}/${LOG_FILE_NAME}-${byDate}.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="g8.library.api" level="debug" additivity="false">
+		<appender-ref ref="FILE-ENGINE" />
+	</logger>
+
+	<logger name="org.springframework" level="error" additivity="false">
+		<appender-ref ref="FILE-ENGINE-ERROR" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="FILE-ENGINE-ERROR" />
+	</root>
+
+</configuration>

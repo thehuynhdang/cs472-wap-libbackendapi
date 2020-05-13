@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Add New Book",
+    "description": "Json data for Add New Book",
+    "type": "object",
+    "properties": {
+        "isbn": {
+            "description": "Unique Book ISBN",
+            "type": "string"
+        },
+        "title": {
+            "description": "Book title",
+            "type": "string"
+        },
+        "maxCheckoutLength": {
+            "type": "number",
+            "minimum": 1
+        },
+        "authors": {
+            "description": "List of Author Id",
+            "type": "array"
+        },
+        "nbrOfCopies": {
+            "description": "A number of book copy",
+            "type": "number",
+            "minimum": 1
+        }
+    },
+    "required": ["isbn", "title", "maxCheckoutLength", "authors", "nbrOfCopies"]
+}
