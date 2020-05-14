@@ -1,7 +1,7 @@
 package g8.library.api.domain;
 
 public class LibraryMember extends User {
-	private final String memberId;
+	private String memberId;
 	
 	private static final long serialVersionUID = 1L;
 	private CheckoutRecord checkoutRecord;
@@ -13,6 +13,10 @@ public class LibraryMember extends User {
 
 	public String getMemberId() {
 		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public CheckoutRecord getCheckoutRecord() {

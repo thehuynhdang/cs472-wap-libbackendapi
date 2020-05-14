@@ -112,6 +112,28 @@ public class LibraryController {
 		return new ResponseEntity<ResponseObject<?>>(builder.build(), builder.httpStatus());
 	}
 	
+	@RequestMapping(value = "/api/member/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseObject<?>> addLibraryMember(@RequestBody(required = true) LibraryMember libraryMember) {
+		SaveMessage saveMessage = libraryService.addNewLibraryMember(libraryMember);
+		
+		ResponseBuilder<String> builder = null;
+		if(!saveMessage.isSuccessed()) {
+			String error = messageSource.getMessage("error.007", null, Locale.ENGLISH);
+			builder = new ResponseBuilder<String>(HttpStatus.EXPECTATION_FAILED).withSuccess(false);
+			builder.newError(new ErrorMessage.ErrorMessageBuilder()
+					.withCode("007").withFaultType("E").withMessage(error).build());
+			if(saveMessage.getE() != null) {
+				builder.newError(new ErrorMessage.ErrorMessageBuilder().withMessage(saveMessage.getE().getMessage()).build());
+			}
+			
+		} else {
+			builder = new ResponseBuilder<String>(HttpStatus.OK).withSuccess(true);
+			builder.newMessage(saveMessage.getMessage());
+		}
+		
+		return new ResponseEntity<ResponseObject<?>>(builder.build(), builder.httpStatus());
+	}
+	
 	@RequestMapping(value = "/api/member/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseObject<?>> searchLibraryMember(@RequestParam(required = true) String searchString) {
 		if("".equals(searchString))
@@ -207,7 +229,9 @@ public class LibraryController {
 			builder = new ResponseBuilder<String>(HttpStatus.EXPECTATION_FAILED).withSuccess(false);
 			builder.newError(new ErrorMessage.ErrorMessageBuilder()
 					.withCode("003").withFaultType("E").withMessage(error).build());
-			
+			if(saveMessage.getE() != null) {
+				builder.newError(new ErrorMessage.ErrorMessageBuilder().withMessage(saveMessage.getE().getMessage()).build());
+			}
 		} else {
 			builder = new ResponseBuilder<String>(HttpStatus.OK).withSuccess(true);
 			builder.newMessage(saveMessage.getMessage());

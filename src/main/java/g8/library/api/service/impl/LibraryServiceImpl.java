@@ -35,6 +35,10 @@ public class LibraryServiceImpl implements LibraryServiceInterface {
 
 	@Override
 	public SaveMessage addNewLibraryMember(LibraryMember libraryMember) throws RuntimeException {
+		if(libraryMember.getMemberId() == null) {
+			libraryMember.setMemberId("0220-" + SingletoneDataLoader.getInstance().getLibraryMember().size() + 1);
+		}
+		
 		SingletoneDataLoader.getInstance().getLibraryMember().put(libraryMember.getMemberId(), libraryMember);
 		return new SerializableDataPersistor<Map<String, LibraryMember>>(
 				StorageType.MEMBERS, SingletoneDataLoader.getInstance().getLibraryMember()).save();
